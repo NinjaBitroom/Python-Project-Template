@@ -2,31 +2,20 @@
 
 [project]
 name = "python_project_template"
-version = "0.1.0"
+version = "0.0.0"
 description = "Template for Python projects"
 authors = [
     { name = "Gabriel Bitencourt Marin", email = "gabrielbitercourt@gmail.com" },
 ]
 requires-python = "==3.10.*"
 readme = "README.md"
-license = {file = "LICENSE"}
+license = { file = "LICENSE" }
 dependencies = []
 
 [dependency-groups]
-commit = [
-    "pre-commit",
-    "commitizen",
-]
-lint = [
-    "pyright",
-    "ruff",
-]
-test = [
-    "pytest",
-    "pytest-cov",
-    "pytest-watcher",
-    "pytest-mock",
-]
+commit = ["pre-commit", "commitizen"]
+lint = ["pyright", "ruff"]
+test = ["pytest", "pytest-cov", "pytest-watcher", "pytest-mock"]
 
 [tool.pyprojectx]
 main = ["pdm"]
@@ -44,7 +33,11 @@ distribution = false
 
 [tool.pdm.scripts]
 post_install = "pre-commit install"
-post_init = { composite = ["pdm install -d", "pdm update -u"] }
+post_init = { composite = [
+    "pdm install -d -k:all",
+    "git init",
+    "pdm update -u",
+] }
 
 [tool.commitizen]
 name = "cz_conventional_commits"
