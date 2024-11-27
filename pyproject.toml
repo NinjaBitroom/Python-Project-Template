@@ -1,21 +1,48 @@
-#:schema https://json.schemastore.org/pyproject.json
+# :schema https://json.schemastore.org/pyproject.json
 
 [project]
 name = "python_project_template"
 version = "0.0.0"
 description = "Template for Python projects"
 authors = [
-    { name = "Gabriel Bitencourt Marin", email = "gabrielbitercourt@gmail.com" },
+  {name = "Gabriel Bitencourt Marin", email = "gabrielbitercourt@gmail.com"}
 ]
 requires-python = "==3.10.*"
 readme = "README.md"
-license = { text = "NONE" }
+license = {text = "NONE"}
 dependencies = []
 
 [dependency-groups]
 commit = ["pre-commit", "commitizen"]
 lint = ["pyright", "ruff"]
+format = ["toml-sort", "ruff"]
 test = ["pytest", "pytest-cov", "pytest-watcher", "pytest-mock"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "semver2"
+version_provider = "pep621"
+update_changelog_on_bump = true
+major_version_zero = true
+
+[tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:"]
+
+[tool.coverage.run]
+omit = ["*/main/*"]
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.scripts]
+post_install = "pre-commit install"
+post_init = {composite = [
+  "pdm install -d -k:all",
+  "git init",
+  "pdm update -u",
+  "toml-sort pyproject.toml"
+]}
 
 [tool.pyprojectx]
 main = ["pdm"]
@@ -28,36 +55,11 @@ remove = "@pdm remove"
 export = "@pdm export"
 run = "@pdm run"
 
-[tool.pdm]
-distribution = false
-
-[tool.pdm.scripts]
-post_install = "pre-commit install"
-post_init = { composite = [
-    "pdm install -d -k:all",
-    "git init",
-    "pdm update -u",
-] }
-
-[tool.commitizen]
-name = "cz_conventional_commits"
-tag_format = "$version"
-version_scheme = "semver2"
-version_provider = "pep621"
-update_changelog_on_bump = true
-major_version_zero = true
-
 [tool.pyright]
 typeCheckingMode = "strict"
 venvPath = "."
 venv = ".venv"
 ignore = ["pw"]
-
-[tool.coverage.run]
-omit = ["*/main/*"]
-
-[tool.coverage.report]
-exclude_also = ["if TYPE_CHECKING:"]
 
 [tool.pytest-watcher]
 now = true
@@ -74,28 +76,25 @@ docstring-code-format = true
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "W191",
-    "E111",
-    "E114",
-    "E117",
-    "D206",
-    "D300",
-    "Q000",
-    "Q001",
-    "Q002",
-    "Q003",
-    "COM812",
-    "COM819",
-    "ISC001",
-    "ISC002",
-    "ANN101",
-    "ANN102",
-    "D203",
-    "D213",
+  "W191",
+  "E111",
+  "E114",
+  "E117",
+  "D206",
+  "D300",
+  "Q000",
+  "Q001",
+  "Q002",
+  "Q003",
+  "COM812",
+  "COM819",
+  "ISC001",
+  "ISC002",
+  "ANN101",
+  "ANN102",
+  "D203",
+  "D213"
 ]
-
-[tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["S101", "SLF001", "S105", "S106"]
 
 [tool.ruff.lint.isort]
 force-single-line = false
@@ -104,9 +103,16 @@ lines-after-imports = -1
 lines-between-types = 0
 split-on-trailing-comma = true
 
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "SLF001", "S105", "S106"]
+
 [tool.ruff.lint.pycodestyle]
 max-doc-length = 72
 max-line-length = 99
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.tomlsort]
+in_place = true
+sort_first = ["project", "dependency-groups"]
