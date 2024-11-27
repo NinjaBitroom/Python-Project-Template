@@ -36,11 +36,12 @@ omit = ["*/main/*"]
 distribution = false
 
 [tool.pdm.scripts]
-post_install = "pre-commit install"
+post_install = {composite = ["pre-commit install", "pdm export -o requirements.txt --without-hashes"]}
 post_init = {composite = [
   "pdm install -d -k:all",
   "git init",
   "pdm update -u",
+  "pre-commit autoupdate",
   "toml-sort pyproject.toml"
 ]}
 

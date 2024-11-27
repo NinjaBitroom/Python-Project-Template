@@ -1,28 +1,28 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: main
     hooks:
       - id: check-yaml
       - id: check-added-large-files
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.29.1
+    rev: master
     hooks:
       - id: commitizen
       - id: commitizen-branch
         stages: [pre-push]
   - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.384
+    rev: main
     hooks:
       - id: pyright
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.9
+    rev: main
     hooks:
       - id: ruff
       - id: ruff-format
   - repo: https://github.com/pdm-project/pdm
-    rev: 2.19.2
+    rev: main
     hooks:
       - id: pdm-lock-check
       - id: pdm-sync
