@@ -42,7 +42,8 @@ post_init = {composite = [
   "git init",
   "pdm update -u",
   "pre-commit autoupdate",
-  "toml-sort pyproject.toml"
+  "toml-sort pyproject.toml",
+  "pw --lock"
 ]}
 
 [tool.pyprojectx]
